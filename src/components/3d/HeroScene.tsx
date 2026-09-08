@@ -3,6 +3,7 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { Float } from "@react-three/drei";
 import type { Group, Mesh, Points } from "three";
 import { useApp } from "@/context/AppContext";
+import { profile } from "@/data/content";
 
 function VoxelMark() {
   const group = useRef<Group>(null);
@@ -104,7 +105,7 @@ export function HeroScene() {
     return (
       <div className="flex h-full items-center justify-center">
         <img
-          src="/ali-github.png"
+          src={profile.avatar}
           alt="Ali Farid GitHub identity"
           className="h-40 w-40 rounded-2xl border border-gold/40"
         />

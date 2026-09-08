@@ -1,3 +1,5 @@
+import { asset } from "@/lib/asset";
+
 export const profile = {
   name: "Ali Farid",
   legalName: "Muhammad Ali Hassan Farid",
@@ -8,8 +10,8 @@ export const profile = {
   email: "alifarid@purdue.edu",
   linkedin: "https://www.linkedin.com/in/ali-farid-purdue",
   github: "https://github.com/af-546",
-  resume: "/Ali_Farid_Resume.pdf",
-  avatar: "/ali-github.png",
+  resume: asset("/Ali_Farid_Resume.pdf"),
+  avatar: asset("/ali-github.png"),
   openToRelocation: true,
   graduation: "June 2028",
   target:
@@ -133,7 +135,7 @@ export const projects: Project[] = [
     tags: ["React", "TypeScript", "Vite", "Community site"],
     url: "https://www.houstonlead.com",
     github: "https://github.com/af-546/Houston_Lead",
-    thumbnail: "/work/houston-lead.jpg",
+    thumbnail: asset("/work/houston-lead.jpg"),
     live: true,
     summary:
       "Business networking site for Greater Houston chapters — membership, events, professionals roster, and chapter info.",
@@ -156,7 +158,7 @@ export const projects: Project[] = [
     category: "Web",
     tags: ["HTML/CSS", "JavaScript", "React", "Listings"],
     url: "https://www.kingre.org",
-    thumbnail: "/work/kingre.jpg",
+    thumbnail: asset("/work/kingre.jpg"),
     live: true,
     summary:
       "Brokerage site for King Real Estate in Old Orchard Beach, ME — property search, listings, and office contact.",
@@ -179,7 +181,7 @@ export const projects: Project[] = [
     category: "Web",
     tags: ["Hospitality", "Booking CTA", "HTML/CSS"],
     url: "https://www.theoobinn.com",
-    thumbnail: "/work/oobinn.jpg",
+    thumbnail: asset("/work/oobinn.jpg"),
     live: true,
     summary:
       "Hotel site for a historic inn on Portland Ave — stay info, booking path, and contact.",
@@ -202,7 +204,7 @@ export const projects: Project[] = [
     category: "Web",
     tags: ["Hospitality", "Gallery", "Booking"],
     url: "https://www.seabreezemotel.com",
-    thumbnail: "/work/seabreeze.jpg",
+    thumbnail: asset("/work/seabreeze.jpg"),
     live: true,
     summary:
       "Motel site a short walk from Old Orchard Beach — rooms gallery, story, and book-now flow.",
@@ -225,7 +227,7 @@ export const projects: Project[] = [
     category: "Web",
     tags: ["Development", "Listings", "HTML/CSS"],
     url: "https://www.coastal-oaks.com",
-    thumbnail: "/work/coastal-oaks.jpg",
+    thumbnail: asset("/work/coastal-oaks.jpg"),
     live: true,
     summary:
       "Design-and-build site for Coastal Oaks LLC — Maine buy/rent properties and project photos.",
@@ -248,7 +250,7 @@ export const projects: Project[] = [
     category: "Web",
     tags: ["Google Sites", "Commercial", "Leasing"],
     url: "https://sites.google.com/view/mllwaukee-riverfront-plaza",
-    thumbnail: "/work/milwaukee.jpg",
+    thumbnail: asset("/work/milwaukee.jpg"),
     live: true,
     summary:
       "Google Site for office suites on Milwaukee’s riverfront — location, photos, and leasing contact.",
