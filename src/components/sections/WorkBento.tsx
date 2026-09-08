@@ -3,7 +3,9 @@ import { projects } from "@/data/content";
 import { Reveal } from "@/components/ui/Reveal";
 
 export function WorkBento() {
-  const featured = projects.filter((p) => p.category === "Web").slice(0, 5);
+  const featured = projects
+    .filter((p) => p.featured != null)
+    .sort((a, b) => (a.featured ?? 99) - (b.featured ?? 99));
   return (
     <section className="section-pad py-24">
       <div className="mb-10 flex items-end justify-between">

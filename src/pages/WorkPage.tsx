@@ -19,7 +19,7 @@ export function WorkPage() {
       <p className="hud-line">Sites, systems, hardware</p>
       <h1 className="display-xl mt-3 text-6xl sm:text-8xl">Work</h1>
       <p className="mt-4 max-w-2xl text-mist">
-        Websites I shipped for King Real Estate and Houston LEAD, plus two personal projects.
+        SoftwareDesign.io and Houston LEAD at NightHash, King Real Estate sites including the Milwaukee Riverfront Plaza Google Site, plus two personal projects.
       </p>
       <div className="mt-8 flex flex-wrap gap-2">
         {filters.map((x) => (

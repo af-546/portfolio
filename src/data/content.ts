@@ -20,7 +20,7 @@ export const profile = {
     "Purdue Computing & Information Technology student (expected June 2028). Transfer GPA 3.94/4.0. I have shipped live websites, supported IT operations, and done a short stint in finance operations — looking at SWE, IT, and systems analyst internships.",
   bio: [
     "I am a Computing & Information Technology student at Purdue, graduating June 2028. I transferred from Montclair State with a 3.94 GPA after a year of computer science.",
-    "At NightHash I work on production React/TypeScript sites, including Houston LEAD. During a 2025 internship at King Real Estate I built and launched property and lodging websites, and helped run day-to-day IT for the office.",
+    "At NightHash I work on production React/TypeScript sites, including SoftwareDesign.io and Houston LEAD. During a 2025 internship at King Real Estate I built and launched property and lodging websites, and helped run day-to-day IT for the office.",
     "Before that I managed operations at Alliance Distributors and interned in finance at Askari Bank. I am looking for Summer 2027 internships across software, IT support/ops, and systems analysis — not only web development.",
   ],
   now: [
@@ -31,7 +31,7 @@ export const profile = {
 };
 
 export const stats = [
-  { label: "Live sites shipped", value: 6, suffix: "", decimals: 0 },
+  { label: "Live sites shipped", value: 7, suffix: "", decimals: 0 },
   { label: "Transfer GPA", value: 3.94, suffix: "/4.0", decimals: 2 },
   { label: "IT devices supported", value: 15, suffix: "+", decimals: 0 },
   { label: "Roles across tech & ops", value: 4, suffix: "", decimals: 0 },
@@ -63,7 +63,7 @@ export const experience = [
     dates: "Jan 2026 — Present",
     accent: "#e8c547",
     bullets: [
-      "Build and maintain production React/TypeScript sites, including the Houston LEAD networking site",
+      "Build and maintain production React/TypeScript sites, including SoftwareDesign.io and Houston LEAD",
       "Work with Vite, Tailwind CSS, forms, and Cloudflare/GitHub deploy workflows on a small team",
     ],
   },
@@ -118,6 +118,7 @@ export type Project = {
   github?: string;
   thumbnail?: string;
   live?: boolean;
+  featured?: number;
   summary: string;
   challenge: string;
   approach: string;
@@ -126,6 +127,30 @@ export type Project = {
 };
 
 export const projects: Project[] = [
+  {
+    slug: "softwaredesign",
+    title: "SoftwareDesign.io",
+    client: "NightHash",
+    year: "2026",
+    category: "Web",
+    tags: ["React", "TypeScript", "Vite", "Studio site"],
+    url: "https://softwaredesign.io",
+    thumbnail: asset("/work/softwaredesign.jpg"),
+    live: true,
+    featured: 1,
+    summary:
+      "NightHash studio site — services, work, about, and contact for a Boston-based software design studio.",
+    challenge:
+      "NightHash needed a public studio site that explained the work, showed examples, and made it easy to get in touch.",
+    approach:
+      "I built the production React/TypeScript site at softwaredesign.io: home, services, work, about, and contact, with a Vite/Tailwind frontend.",
+    results: [
+      "Live at softwaredesign.io",
+      "Studio pages for services, work, about, and contact",
+      "Shipped on the NightHash production stack",
+    ],
+    accent: "#3b82f6",
+  },
   {
     slug: "houston-lead",
     title: "Houston LEAD",
@@ -137,6 +162,7 @@ export const projects: Project[] = [
     github: "https://github.com/af-546/Houston_Lead",
     thumbnail: asset("/work/houston-lead.jpg"),
     live: true,
+    featured: 3,
     summary:
       "Business networking site for Greater Houston chapters — membership, events, professionals roster, and chapter info.",
     challenge:
@@ -160,6 +186,7 @@ export const projects: Project[] = [
     url: "https://www.kingre.org",
     thumbnail: asset("/work/kingre.jpg"),
     live: true,
+    featured: 4,
     summary:
       "Brokerage site for King Real Estate in Old Orchard Beach, ME — property search, listings, and office contact.",
     challenge:
@@ -183,6 +210,7 @@ export const projects: Project[] = [
     url: "https://www.theoobinn.com",
     thumbnail: asset("/work/oobinn.jpg"),
     live: true,
+    featured: 5,
     summary:
       "Hotel site for a historic inn on Portland Ave — stay info, booking path, and contact.",
     challenge:
@@ -252,6 +280,7 @@ export const projects: Project[] = [
     url: "https://sites.google.com/view/mllwaukee-riverfront-plaza",
     thumbnail: asset("/work/milwaukee.jpg"),
     live: true,
+    featured: 2,
     summary:
       "Google Site for office suites on Milwaukee’s riverfront — location, photos, and leasing contact.",
     challenge:

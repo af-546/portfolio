@@ -26,7 +26,7 @@ export function ChatWidget() {
     },
     {
       q: "What did he ship?",
-      a: "Houston LEAD, plus King Real Estate sites: kingre.org, theoobinn.com, seabreezemotel.com, coastal-oaks.com, Milwaukee Riverfront Plaza, and sacolofts.com. Also a Python page crawler and a Raspberry Pi traffic-light controller.",
+      a: "SoftwareDesign.io and Houston LEAD at NightHash, plus King Real Estate sites: kingre.org, theoobinn.com, seabreezemotel.com, coastal-oaks.com, Milwaukee Riverfront Plaza (sites.google.com/view/mllwaukee-riverfront-plaza), and sacolofts.com. Also a Python page crawler and a Raspberry Pi traffic-light controller.",
     },
     {
       q: "How do I reach him?",
