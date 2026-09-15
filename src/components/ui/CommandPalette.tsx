@@ -48,8 +48,8 @@ export function CommandPalette() {
               autoFocus
               value={q}
               onChange={(e) => setQ(e.target.value)}
-              placeholder="Jump, search work, open resume…"
-              className="w-full border-b border-white/10 bg-transparent px-5 py-4 font-mono text-sm outline-none"
+              placeholder="Search pages, work, resume..."
+              className="w-full border-b border-white/10 bg-transparent px-5 py-4 text-sm outline-none"
             />
             <ul className="max-h-80 overflow-auto p-2">
               {items.map((item) => (

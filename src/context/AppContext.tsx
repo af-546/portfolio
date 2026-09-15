@@ -12,10 +12,36 @@ import { blip, setAudioEnabled } from "@/lib/audio";
 
 export type Toast = { id: number; text: string };
 
+function readFlag(key: string): boolean | null {
+  try {
+    const v = localStorage.getItem(key);
+    if (v === "1") return true;
+    if (v === "0") return false;
+  } catch {
+    /* ignore */
+  }
+  return null;
+}
+
+function writeFlag(key: string, value: boolean) {
+  try {
+    localStorage.setItem(key, value ? "1" : "0");
+  } catch {
+    /* ignore */
+  }
+}
+
 type Ctx = {
   sound: boolean;
   toggleSound: () => void;
   reduced: boolean;
+  setReduced: (v: boolean) => void;
+  contrast: boolean;
+  setContrast: (v: boolean) => void;
+  largeText: boolean;
+  setLargeText: (v: boolean) => void;
+  a11yOpen: boolean;
+  setA11yOpen: (v: boolean) => void;
   commandOpen: boolean;
   setCommandOpen: (v: boolean) => void;
   terminalOpen: boolean;
@@ -41,6 +67,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [chatOpen, setChatOpen] = useState(false);
   const [helpOpen, setHelpOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [a11yOpen, setA11yOpen] = useState(false);
   const [toasts, setToasts] = useState<Toast[]>([]);
   const [preloaderDone, setPreloaderDone] = useState(() => {
     try {
@@ -49,9 +76,28 @@ export function AppProvider({ children }: { children: ReactNode }) {
       return false;
     }
   });
-  const [reduced, setReduced] = useState(false);
+  const [reduced, setReducedState] = useState(() => {
+    const stored = readFlag("af-reduced");
+    if (stored != null) return stored;
+    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  });
+  const [contrast, setContrastState] = useState(() => readFlag("af-contrast") === true);
+  const [largeText, setLargeTextState] = useState(() => readFlag("af-large") === true);
   const navigate = useNavigate();
   const location = useLocation();
+
+  const setReduced = useCallback((v: boolean) => {
+    setReducedState(v);
+    writeFlag("af-reduced", v);
+  }, []);
+  const setContrast = useCallback((v: boolean) => {
+    setContrastState(v);
+    writeFlag("af-contrast", v);
+  }, []);
+  const setLargeText = useCallback((v: boolean) => {
+    setLargeTextState(v);
+    writeFlag("af-large", v);
+  }, []);
 
   useEffect(() => {
     if (preloaderDone) return;
@@ -67,20 +113,21 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }, [preloaderDone]);
 
   useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const sync = () => setReduced(mq.matches);
-    sync();
-    mq.addEventListener("change", sync);
-    return () => mq.removeEventListener("change", sync);
-  }, []);
-
-  useEffect(() => {
     document.documentElement.classList.toggle("reduce-motion", reduced);
   }, [reduced]);
 
   useEffect(() => {
+    document.documentElement.classList.toggle("high-contrast", contrast);
+  }, [contrast]);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("large-text", largeText);
+  }, [largeText]);
+
+  useEffect(() => {
     setMenuOpen(false);
     setCommandOpen(false);
+    setA11yOpen(false);
     window.scrollTo({ top: 0, behavior: "instant" });
   }, [location.pathname]);
 
@@ -131,12 +178,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
         setTerminalOpen(false);
         setHelpOpen(false);
         setMenuOpen(false);
+        setA11yOpen(false);
       }
       if (typing) return;
-      if (e.key.toLowerCase() === "s") {
-        toggleSound();
-        return;
-      }
       if (e.key.toLowerCase() === "g") {
         const next = (ev: KeyboardEvent) => {
           const map: Record<string, string> = {
@@ -167,6 +211,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
       sound,
       toggleSound,
       reduced,
+      setReduced,
+      contrast,
+      setContrast,
+      largeText,
+      setLargeText,
+      a11yOpen,
+      setA11yOpen,
       commandOpen,
       setCommandOpen,
       terminalOpen,
@@ -186,6 +237,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
       sound,
       toggleSound,
       reduced,
+      setReduced,
+      contrast,
+      setContrast,
+      largeText,
+      setLargeText,
+      a11yOpen,
       commandOpen,
       terminalOpen,
       chatOpen,

@@ -11,26 +11,26 @@ export function ChatWidget() {
   const [log, setLog] = useState<Msg[]>([
     {
       from: "af",
-      text: "Hi — I can point you to work, school, or how to get in touch.",
+      text: "Hi. I can point you to work, school, or how to get in touch.",
     },
   ]);
 
   const prompts: { q: string; a: string; extra?: ReactNode }[] = [
     {
       q: "Who is Ali?",
-      a: `${profile.legalName}. Purdue CIT, expected ${profile.graduation}. Software developer at NightHash. ${profile.target}.`,
+      a: `${profile.legalName}. Purdue CIT, expected graduation ${profile.graduation}. Recently a software developer at NightHash. ${profile.target}.`,
     },
     {
       q: "School / GPA?",
-      a: `Purdue University, B.S. Computing & Information Technology, expected ${profile.graduation}. Transferred from Montclair State (GPA 3.94/4.0).`,
+      a: `Purdue University, B.S. Computing and Information Technology. Expected graduation: ${profile.graduation}. Transferred from Montclair State (GPA 3.94/4.0).`,
     },
     {
       q: "What did he ship?",
-      a: "SoftwareDesign.io and Houston LEAD at NightHash, plus King Real Estate sites: kingre.org, theoobinn.com, seabreezemotel.com, coastal-oaks.com, Milwaukee Riverfront Plaza (sites.google.com/view/mllwaukee-riverfront-plaza), and sacolofts.com. Also a Python page crawler and a Raspberry Pi traffic-light controller.",
+      a: "SoftwareDesign.io and Houston LEAD at NightHash, plus King Real Estate sites: kingre.org, theoobinn.com, seabreezemotel.com, coastal-oaks.com, Milwaukee Riverfront Plaza, and sacolofts.com. Also a Python page crawler and a Raspberry Pi traffic-light controller.",
     },
     {
       q: "How do I reach him?",
-      a: "Email, call, LinkedIn, GitHub, or the resume — all of these open directly:",
+      a: "Email, call, LinkedIn, GitHub, or the resume. All of these open directly:",
       extra: <ContactPills />,
     },
   ];
@@ -40,7 +40,7 @@ export function ChatWidget() {
       <button
         type="button"
         onClick={() => setChatOpen(!chatOpen)}
-        className="fixed bottom-5 right-5 z-[95] rounded-full border border-gold bg-void px-4 py-3 font-mono text-[11px] uppercase tracking-widest text-gold shadow-gold"
+        className="fixed bottom-5 right-5 z-[95] rounded-full border border-gold bg-void px-4 py-2.5 text-sm font-semibold text-gold shadow-gold"
       >
         {chatOpen ? "Close" : "Ask Ali"}
       </button>
@@ -56,7 +56,7 @@ export function ChatWidget() {
               {log.map((m, i) => (
                 <div key={i}>
                   <p className={m.from === "af" ? "text-aqua" : "text-paper"}>
-                    <span className="hud-line mr-2">{m.from === "af" ? "ali" : "you"}</span>
+                    <span className="mr-2 text-xs font-semibold">{m.from === "af" ? "Ali" : "You"}</span>
                     {m.text}
                   </p>
                   {m.extra && <div className="mt-2">{m.extra}</div>}

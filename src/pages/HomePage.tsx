@@ -11,7 +11,7 @@ import { skills } from "@/data/content";
 import { usePageTitle } from "@/hooks/usePageTitle";
 
 export function HomePage() {
-  usePageTitle("Ali Farid — Software, IT, Systems");
+  usePageTitle("Ali Farid | Software, IT, Systems");
   const tickers = [
     ...skills.languages,
     ...skills.frameworks,

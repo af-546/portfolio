@@ -31,7 +31,7 @@ export function FxLab() {
   const exposure = rows.reduce((s, r) => s + Math.abs(r.delta) * r.accounts, 0);
 
   return (
-    <div className="rounded-3xl border border-white/10 p-6">
+    <div className="rounded-2xl border border-white/10 p-5">
       <p className="hud-line">Askari Bank intern, 2019</p>
       <h3 className="font-display text-2xl">FX table</h3>
       <p className="mt-2 text-sm text-mist">
@@ -61,7 +61,7 @@ export function FxLab() {
                   <svg viewBox="0 0 96 24" className="h-6 w-24">
                     <polyline
                       fill="none"
-                      stroke="#e8c547"
+          stroke="#e08a5d"
                       strokeWidth="1.4"
                       points={r.series
                         .map((v, i) => `${(i / 47) * 96},${24 - ((v - 96) / 20) * 24}`)

@@ -10,6 +10,7 @@ export function Preloader() {
   useEffect(() => {
     if (reduced) {
       setPct(100);
+      setPreloaderDone(true);
       return;
     }
     const start = Date.now();
@@ -17,7 +18,7 @@ export function Preloader() {
       setPct(Math.min(100, Math.round(((Date.now() - start) / 1400) * 100)));
     }, 50);
     return () => window.clearInterval(id);
-  }, [reduced]);
+  }, [reduced, setPreloaderDone]);
 
   return (
     <AnimatePresence>
@@ -36,15 +37,15 @@ export function Preloader() {
             }
           }}
         >
-          <div className="flex justify-between hud-line">
+          <div className="flex justify-between text-sm font-medium text-mist">
             <span>Portfolio</span>
             <span>Purdue</span>
           </div>
           <div>
-            <p className="hud-line mb-4">Ali Farid</p>
-            <h1 className="display-xl text-[12vw] sm:text-[9vw]">{profile.name}</h1>
-            <p className="mt-4 max-w-xl font-mono text-sm text-mist">
-              Purdue CIT · expected {profile.graduation} · click to enter
+            <p className="mb-4 text-sm font-medium text-mist">Ali Farid</p>
+            <h1 className="display-xl text-5xl sm:text-7xl">{profile.name}</h1>
+            <p className="mt-4 max-w-xl text-base text-mist">
+              Purdue CIT · Expected graduation: {profile.graduation} · click to enter
             </p>
           </div>
           <div className="flex items-end justify-between">

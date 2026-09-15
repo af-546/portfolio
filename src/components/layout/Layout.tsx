@@ -12,19 +12,18 @@ import { TerminalOverlay } from "@/components/ui/TerminalOverlay";
 import { ChatWidget } from "@/components/ui/ChatWidget";
 import { KeyboardHelp } from "@/components/ui/KeyboardHelp";
 import { Toasts } from "@/components/ui/Toasts";
+import { A11yPanel } from "@/components/ui/A11yPanel";
 
 function Shell() {
   return (
     <>
-      <div className="grain" />
-      <div className="scanlines" />
       <Aurora />
       <CustomCursor />
       <ScrollProgress />
       <Preloader />
       <Navbar />
       <OverlayNav />
-      <main className="relative z-10 pt-[88px]">
+      <main className="relative z-10 pt-[72px] md:pt-[108px]">
         <Outlet />
       </main>
       <Footer />
@@ -32,6 +31,7 @@ function Shell() {
       <TerminalOverlay />
       <KeyboardHelp />
       <ChatWidget />
+      <A11yPanel />
       <Toasts />
     </>
   );

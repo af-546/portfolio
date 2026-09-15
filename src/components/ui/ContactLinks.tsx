@@ -1,4 +1,5 @@
 import { profile } from "@/data/content";
+import { Magnetic } from "@/components/ui/Magnetic";
 
 function IconWrap({ children }: { children: React.ReactNode }) {
   return (
@@ -108,9 +109,9 @@ export function ContactLinks({
             <IconWrap>{item.icon}</IconWrap>
             <span>
               {!compact && (
-                <span className="hud-line block text-mist group-hover:text-gold/80">{item.label}</span>
+                <span className="block text-sm font-medium text-mist group-hover:text-gold/80">{item.label}</span>
               )}
-              <span className={compact ? "font-mono text-xs uppercase tracking-widest" : "text-sm"}>
+                <span className={compact ? "text-sm font-medium" : "text-sm"}>
                 {compact ? item.label : item.value}
               </span>
             </span>
@@ -125,16 +126,17 @@ export function ContactPills() {
   return (
     <div className="flex flex-wrap gap-2">
       {contactLinks.map((item) => (
-        <a
-          key={item.id}
-          href={item.href}
-          target={item.external ? "_blank" : undefined}
-          rel={item.external ? "noreferrer" : undefined}
-          className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-2 text-xs hover:border-gold/50 hover:text-gold"
-        >
-          <span className="text-gold">{item.icon}</span>
-          {item.label}
-        </a>
+        <Magnetic key={item.id}>
+          <a
+            href={item.href}
+            target={item.external ? "_blank" : undefined}
+            rel={item.external ? "noreferrer" : undefined}
+            className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3.5 py-2 text-sm hover:border-gold/50 hover:text-gold"
+          >
+            <span className="text-gold">{item.icon}</span>
+            {item.label}
+          </a>
+        </Magnetic>
       ))}
     </div>
   );

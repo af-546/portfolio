@@ -2,11 +2,11 @@ import { Link } from "react-router-dom";
 import { usePageTitle } from "@/hooks/usePageTitle";
 
 export function NotFoundPage() {
-  usePageTitle("404 — Ali Farid");
+  usePageTitle("404 | Ali Farid");
   return (
-    <div className="section-pad flex min-h-[60vh] flex-col justify-center py-24">
+    <div className="section-pad flex min-h-[56vh] flex-col justify-center py-16">
       <p className="hud-line">Missing page</p>
-      <h1 className="display-xl mt-4 text-[18vw]">404</h1>
+      <h1 className="display-xl mt-4 text-7xl sm:text-8xl">404</h1>
       <p className="mt-4 text-mist">That URL is not on this site.</p>
       <Link to="/" className="mt-8 w-fit text-gold">
         Back home

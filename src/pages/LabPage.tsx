@@ -6,24 +6,24 @@ import { usePageTitle } from "@/hooks/usePageTitle";
 import { useApp } from "@/context/AppContext";
 
 export function LabPage() {
-  usePageTitle("Lab — Ali Farid");
+  usePageTitle("Lab | Ali Farid");
   const { setTerminalOpen } = useApp();
   return (
-    <div className="section-pad py-16">
+    <div className="section-pad py-12">
       <p className="hud-line">Small demos</p>
-      <h1 className="display-xl mt-3 text-6xl sm:text-8xl">Lab</h1>
-      <p className="mt-4 max-w-2xl text-mist">
-        Browser versions of two school/personal projects (page crawler, traffic lights) plus simple
-        stand-ins for inventory and FX work from earlier jobs. Not production systems.
+      <h1 className="display-xl mt-2 text-5xl sm:text-6xl">Lab</h1>
+      <p className="mt-3 max-w-2xl text-lg text-mist">
+        Browser versions of two school and personal projects (page crawler, traffic lights), plus
+        stand-ins for the Daraz.pk store desk and FX work from earlier jobs. Not production systems.
       </p>
       <button
         type="button"
         onClick={() => setTerminalOpen(true)}
-        className="mt-6 rounded-full border border-gold/40 px-4 py-2 font-mono text-[10px] uppercase tracking-widest text-gold"
+        className="mt-5 rounded-full border border-gold/40 px-4 py-2 text-sm font-semibold text-gold"
       >
         Open terminal
       </button>
-      <div className="mt-12 grid gap-6 lg:grid-cols-2">
+      <div className="mt-8 grid gap-5 lg:grid-cols-2">
         <CrawlerLab />
         <TrafficLab />
         <FxLab />

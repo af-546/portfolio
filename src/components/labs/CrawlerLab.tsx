@@ -1,244 +1,262 @@
-import { useMemo, useState } from "react";
-
-type PageNode = {
-  path: string;
-  title: string;
-  summary: string;
-  children: string[];
-};
-
-type Site = {
-  id: string;
-  start: string;
-  label: string;
-  pages: Record<string, PageNode>;
-};
-
-const sites: Site[] = [
-  {
-    id: "inn",
-    start: "/",
-    label: "theoobinn.com",
-    pages: {
-      "/": {
-        path: "/",
-        title: "Home",
-        summary:
-          "Old Orchard Beach Inn home page. Historic inn near the beach, with booking and contact links.",
-        children: ["/book", "/contact", "/explore"],
-      },
-      "/book": {
-        path: "/book",
-        title: "Book",
-        summary: "Booking page. Asks visitors to reserve a stay at the inn.",
-        children: ["/contact"],
-      },
-      "/contact": {
-        path: "/contact",
-        title: "Contact",
-        summary: "Phone, email, and Portland Ave address for the inn.",
-        children: [],
-      },
-      "/explore": {
-        path: "/explore",
-        title: "Explore",
-        summary: "Area notes: beach, pier, and nearby Old Orchard Beach spots.",
-        children: ["/book"],
-      },
-    },
-  },
-  {
-    id: "kre",
-    start: "/",
-    label: "kingre.org",
-    pages: {
-      "/": {
-        path: "/",
-        title: "Home",
-        summary:
-          "King Real Estate home. Coastal Maine listings and a search call-to-action.",
-        children: ["/about", "/properties"],
-      },
-      "/about": {
-        path: "/about",
-        title: "About",
-        summary: "Brokerage background and the Old Orchard Beach office.",
-        children: ["/properties"],
-      },
-      "/properties": {
-        path: "/properties",
-        title: "Properties",
-        summary: "Listings index: condos, apartments, office and retail space.",
-        children: ["/properties/lighthouse", "/contact"],
-      },
-      "/properties/lighthouse": {
-        path: "/properties/lighthouse",
-        title: "Listing",
-        summary: "Single property page with photos and inquiry CTA.",
-        children: ["/contact"],
-      },
-      "/contact": {
-        path: "/contact",
-        title: "Contact",
-        summary: "Office phone, email, and 198 Saco Ave address.",
-        children: [],
-      },
-    },
-  },
-];
+import { useRef, useState } from "react";
 
 type LogLine = {
-  path: string;
+  url: string;
   title: string;
   summary: string;
   subCount: number;
   children: string[];
+  error?: string;
 };
 
-export function CrawlerLab() {
-  const [siteId, setSiteId] = useState(sites[0].id);
-  const [running, setRunning] = useState(false);
-  const [i, setI] = useState(0);
-  const [log, setLog] = useState<LogLine[]>([]);
+const MAX_PAGES = 8;
+const FETCH_MS = 12000;
 
-  const site = sites.find((s) => s.id === siteId) ?? sites[0];
-  const order = useMemo(() => {
-    const seen = new Set<string>();
-    const q = [site.start];
-    const out: string[] = [];
-    while (q.length) {
-      const p = q.shift()!;
-      if (seen.has(p) || !site.pages[p]) continue;
-      seen.add(p);
-      out.push(p);
-      q.push(...site.pages[p].children);
+const PROXIES = [
+  (url: string) => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
+  (url: string) => `https://corsproxy.io/?${encodeURIComponent(url)}`,
+  (url: string) => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+  (url: string) => `https://r.jina.ai/${url}`,
+];
+
+function normalizeUrl(raw: string) {
+  const trimmed = raw.trim();
+  if (!trimmed) return null;
+  try {
+    const withProto = /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
+    const url = new URL(withProto);
+    if (url.protocol !== "http:" && url.protocol !== "https:") return null;
+    return url;
+  } catch {
+    return null;
+  }
+}
+
+function sameOrigin(a: URL, href: string) {
+  try {
+    const next = new URL(href, a);
+    return next.origin === a.origin && (next.protocol === "http:" || next.protocol === "https:");
+  } catch {
+    return false;
+  }
+}
+
+function isSkippable(href: string) {
+  return /\.(pdf|jpg|jpeg|png|gif|webp|svg|zip|mp4|mp3|css|js|woff2?)$/i.test(href.split("?")[0]);
+}
+
+function canonical(href: string, base?: string) {
+  try {
+    const url = new URL(href, base);
+    url.hash = "";
+    if (url.pathname.length > 1) url.pathname = url.pathname.replace(/\/+$/, "");
+    return url.href;
+  } catch {
+    return null;
+  }
+}
+
+function summarizeDoc(html: string, fallbackUrl: string) {
+  const looksHtml = /<html|<body|<title|<meta/i.test(html);
+  if (!looksHtml) {
+    const titleMatch = html.match(/^Title:\s*(.+)$/m);
+    const title = titleMatch?.[1]?.trim() || html.replace(/\s+/g, " ").trim().slice(0, 80) || fallbackUrl;
+    const body = html.replace(/^Title:.*$/m, "").replace(/\s+/g, " ").trim();
+    const links = [
+      ...html.matchAll(/\]\((https?:\/\/[^)\s]+|\/[^)\s]+)\)/g),
+      ...html.matchAll(/https?:\/\/[^\s)"']+/g),
+    ].map((m) => m[1] || m[0]);
+    return { title, summary: body.slice(0, 280), links };
+  }
+
+  const doc = new DOMParser().parseFromString(html, "text/html");
+  const title =
+    doc.querySelector("title")?.textContent?.trim() ||
+    doc.querySelector("h1")?.textContent?.trim() ||
+    fallbackUrl;
+  const meta =
+    doc.querySelector('meta[name="description"]')?.getAttribute("content")?.trim() ||
+    doc.querySelector("p")?.textContent?.trim() ||
+    "";
+  const links = [...doc.querySelectorAll("a[href]")]
+    .map((a) => a.getAttribute("href") || "")
+    .filter(Boolean);
+  return { title, summary: meta.replace(/\s+/g, " ").slice(0, 280), links };
+}
+
+async function fetchPage(url: string) {
+  let lastError = "Could not fetch that page.";
+  for (const make of PROXIES) {
+    const ctrl = new AbortController();
+    const timer = window.setTimeout(() => ctrl.abort(), FETCH_MS);
+    try {
+      const res = await fetch(make(url), { signal: ctrl.signal });
+      window.clearTimeout(timer);
+      if (!res.ok) {
+        lastError = `HTTP ${res.status} from proxy`;
+        continue;
+      }
+      const text = await res.text();
+      if (text && text.length > 20) return text;
+      lastError = "Empty response";
+    } catch (err) {
+      window.clearTimeout(timer);
+      lastError = err instanceof Error ? err.message : "Network error";
     }
-    return out;
-  }, [site]);
+  }
+  throw new Error(lastError);
+}
 
-  const crawlNext = () => {
-    const path = order[i];
-    if (!path) {
-      setRunning(false);
+export function CrawlerLab() {
+  const [input, setInput] = useState("https://www.kingre.org");
+  const [running, setRunning] = useState(false);
+  const [log, setLog] = useState<LogLine[]>([]);
+  const [status, setStatus] = useState("Paste a public URL, then start the crawl.");
+  const stopRef = useRef(false);
+
+  const crawl = async () => {
+    const start = normalizeUrl(input);
+    if (!start) {
+      setStatus("Enter a valid http or https URL.");
       return;
     }
-    const page = site.pages[path];
-    setLog((prev) => [
-      ...prev,
-      {
-        path: page.path,
-        title: page.title,
-        summary: page.summary,
-        subCount: page.children.length,
-        children: page.children,
-      },
-    ]);
-    setI((n) => n + 1);
-  };
 
-  const start = () => {
-    const first = site.pages[site.start];
-    setLog([
-      {
-        path: first.path,
-        title: first.title,
-        summary: first.summary,
-        subCount: first.children.length,
-        children: first.children,
-      },
-    ]);
-    setI(1);
+    stopRef.current = false;
     setRunning(true);
-  };
+    setLog([]);
+    setStatus(`Fetching ${start.href}`);
 
-  const current = running && i < order.length;
+    const startHref = canonical(start.href) ?? start.href;
+    const seen = new Set<string>();
+    const queue = [startHref];
+    const visited: LogLine[] = [];
+
+    while (queue.length && visited.length < MAX_PAGES && !stopRef.current) {
+      const current = queue.shift()!;
+      if (seen.has(current)) continue;
+      seen.add(current);
+      setStatus(`Fetching ${current} (${visited.length + 1}/${MAX_PAGES})`);
+
+      try {
+        const html = await fetchPage(current);
+        const parsed = summarizeDoc(html, current);
+        const origin = new URL(current);
+        const children = [
+          ...new Set(
+            parsed.links
+              .map((href) => canonical(href, origin.href))
+              .filter((href): href is string => Boolean(href))
+              .filter((href) => sameOrigin(origin, href) && !isSkippable(href) && href !== canonical(current)),
+          ),
+        ].slice(0, 12);
+
+        const line: LogLine = {
+          url: current,
+          title: parsed.title,
+          summary: parsed.summary || "No description found on this page.",
+          subCount: children.length,
+          children,
+        };
+        visited.push(line);
+        setLog([...visited]);
+        for (const child of children) {
+          if (!seen.has(child) && !queue.includes(child)) queue.push(child);
+        }
+      } catch (err) {
+        const line: LogLine = {
+          url: current,
+          title: "Fetch failed",
+          summary: "",
+          subCount: 0,
+          children: [],
+          error: err instanceof Error ? err.message : "Unknown error",
+        };
+        visited.push(line);
+        setLog([...visited]);
+      }
+    }
+
+    setRunning(false);
+    setStatus(
+      stopRef.current
+        ? "Stopped."
+        : `Done. ${visited.length} page${visited.length === 1 ? "" : "s"} visited.`,
+    );
+  };
 
   return (
-    <div className="rounded-3xl border border-white/10 p-6 lg:col-span-2">
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <div>
-          <p className="hud-line">Python · Requests · BeautifulSoup</p>
-          <h3 className="font-display text-2xl">Page crawler</h3>
-          <p className="mt-2 max-w-2xl text-sm text-mist">
-            Reconstruction of the 2024 script: open a page, write a short summary, count subpages.
-            This demo walks a small local copy of two sites I shipped — it does not hit the live
-            internet.
-          </p>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          {sites.map((s) => (
-            <button
-              key={s.id}
-              onClick={() => {
-                setSiteId(s.id);
-                setLog([]);
-                setI(0);
-                setRunning(false);
-              }}
-              className={`rounded-full px-3 py-1 font-mono text-[10px] uppercase tracking-widest ${
-                siteId === s.id ? "bg-gold text-void" : "border border-white/20"
-              }`}
-            >
-              {s.label}
-            </button>
-          ))}
-        </div>
-      </div>
+    <div className="rounded-2xl border border-white/10 p-5 lg:col-span-2">
+      <p className="hud-line">Python · Requests · BeautifulSoup</p>
+      <h3 className="mt-1 font-display text-2xl">Page crawler</h3>
+      <p className="mt-2 max-w-2xl text-sm text-mist">
+        Same idea as the 2024 script: open a page, write a short summary, count same-site links.
+        Paste any public URL. This demo fetches the live site and follows a few child pages.
+      </p>
 
-      <pre className="mt-5 max-h-80 overflow-auto rounded-2xl bg-black p-4 font-mono text-[11px] leading-6 text-aqua">
-        <div className="text-mist">$ python crawler.py {site.label}</div>
+      <form
+        className="mt-4 flex flex-col gap-2 sm:flex-row"
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (!running) void crawl();
+        }}
+      >
+        <input
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="https://example.com"
+          disabled={running}
+          className="min-w-0 flex-1 rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 font-mono text-sm outline-none focus:border-gold"
+        />
+        <div className="flex gap-2">
+          {!running ? (
+            <button
+              type="submit"
+              className="rounded-full bg-gold px-4 py-2 text-sm font-semibold text-void"
+            >
+              Start crawl
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={() => {
+                stopRef.current = true;
+              }}
+              className="rounded-full border border-white/20 px-4 py-2 text-sm font-semibold"
+            >
+              Stop
+            </button>
+          )}
+        </div>
+      </form>
+
+      <pre className="mt-4 max-h-80 overflow-auto rounded-2xl bg-black/60 p-4 font-mono text-[11px] leading-6 text-aqua">
+        <div className="text-mist">$ python crawler.py {input.trim() || "site"}</div>
         {log.map((line) => (
-          <div key={line.path} className="mt-3">
+          <div key={line.url} className="mt-3">
             <div className="text-gold">
-              fetched {line.path} — {line.title}
+              fetched {line.url}
+              {line.title ? `, ${line.title}` : ""}
             </div>
-            <div>summary: {line.summary}</div>
-            <div>
-              subpages: {line.subCount}
-              {line.children.length ? ` (${line.children.join(", ")})` : ""}
-            </div>
+            {line.error ? (
+              <div className="text-signal">error: {line.error}</div>
+            ) : (
+              <>
+                <div>summary: {line.summary}</div>
+                <div>
+                  subpages: {line.subCount}
+                  {line.children.length
+                    ? ` (${line.children
+                        .slice(0, 4)
+                        .map((c) => new URL(c).pathname || "/")
+                        .join(", ")})`
+                    : ""}
+                </div>
+              </>
+            )}
           </div>
         ))}
-        {running && i >= order.length && (
-          <div className="mt-3 text-paper">
-            done. {log.length} pages visited,{" "}
-            {log.reduce((n, l) => n + l.subCount, 0)} subpage links counted.
-          </div>
-        )}
-        {!running && log.length === 0 && (
-          <div className="mt-2 text-mist"># press start — visits one page at a time</div>
-        )}
+        <div className="mt-3 text-mist"># {status}</div>
       </pre>
-
-      <div className="mt-4 flex flex-wrap gap-2">
-        {!running ? (
-          <button
-            onClick={start}
-            className="rounded-full bg-gold px-4 py-2 font-mono text-[10px] uppercase tracking-widest text-void"
-          >
-            Start crawl
-          </button>
-        ) : current ? (
-          <button
-            onClick={crawlNext}
-            className="rounded-full bg-gold px-4 py-2 font-mono text-[10px] uppercase tracking-widest text-void"
-          >
-            Fetch next page
-          </button>
-        ) : (
-          <button
-            onClick={start}
-            className="rounded-full border border-white/20 px-4 py-2 font-mono text-[10px] uppercase tracking-widest"
-          >
-            Run again
-          </button>
-        )}
-        {running && current && (
-          <span className="self-center font-mono text-[10px] uppercase tracking-widest text-mist">
-            {i + 1} / {order.length}
-          </span>
-        )}
-      </div>
     </div>
   );
 }

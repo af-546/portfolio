@@ -4,10 +4,9 @@ import { useApp } from "@/context/AppContext";
 export function KeyboardHelp() {
   const { helpOpen, setHelpOpen } = useApp();
   const rows = [
-    ["⌘/Ctrl K", "Command palette"],
+    ["Ctrl K", "Search"],
     ["`", "Terminal"],
     ["?", "This panel"],
-    ["S", "Sound"],
     ["G then H/W/L/A/C", "Go home/work/lab/about/contact"],
     ["Esc", "Close overlays"],
   ];
@@ -22,8 +21,8 @@ export function KeyboardHelp() {
           onClick={() => setHelpOpen(false)}
         >
           <div className="glass w-full max-w-md rounded-2xl p-6" onClick={(e) => e.stopPropagation()}>
-            <p className="hud-line mb-4">Shortcuts</p>
-            <ul className="space-y-3 font-mono text-sm">
+            <p className="mb-4 text-sm font-semibold">Shortcuts</p>
+            <ul className="space-y-3 text-sm">
               {rows.map(([k, v]) => (
                 <li key={k} className="flex justify-between gap-4">
                   <span className="text-gold">{k}</span>

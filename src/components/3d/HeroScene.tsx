@@ -36,8 +36,8 @@ function VoxelMark() {
         <mesh key={i} position={[x * 0.42, y * 0.42, 0]}>
           <boxGeometry args={[0.34, 0.34, 0.34]} />
           <meshStandardMaterial
-            color="#e8c547"
-            emissive="#b4922f"
+            color="#e08a5d"
+            emissive="#c46d42"
             emissiveIntensity={0.45}
             roughness={0.28}
             metalness={0.4}
@@ -60,7 +60,7 @@ function Crystal() {
       <mesh ref={mesh} position={[1.8, 0.2, -0.6]}>
         <icosahedronGeometry args={[0.7, 0]} />
         <meshPhysicalMaterial
-          color="#7af0c6"
+          color="#7ec9a0"
           roughness={0.12}
           metalness={0.35}
           transmission={0.7}
@@ -94,7 +94,7 @@ function Particles() {
       <bufferGeometry>
         <bufferAttribute attach="attributes-position" args={[positions, 3]} />
       </bufferGeometry>
-      <pointsMaterial size={0.018} color="#e8c547" transparent opacity={0.7} />
+      <pointsMaterial size={0.018} color="#e08a5d" transparent opacity={0.7} />
     </points>
   );
 }
@@ -107,17 +107,17 @@ export function HeroScene() {
         <img
           src={profile.avatar}
           alt="Ali Farid GitHub identity"
-          className="h-40 w-40 rounded-2xl border border-gold/40"
+          className="h-40 w-40 rounded-2xl border border-gold/40 object-cover"
         />
       </div>
     );
   }
   return (
     <Canvas camera={{ position: [0, 0, 5.2], fov: 42 }} dpr={[1, 1.75]}>
-      <color attach="background" args={["#050505"]} />
-      <ambientLight intensity={0.4} />
-      <pointLight position={[3, 3, 4]} intensity={18} color="#e8c547" />
-      <pointLight position={[-4, -2, 2]} intensity={10} color="#ff4d2e" />
+      <color attach="background" args={["#171310"]} />
+      <ambientLight intensity={0.45} />
+      <pointLight position={[3, 3, 4]} intensity={16} color="#e08a5d" />
+      <pointLight position={[-4, -2, 2]} intensity={9} color="#7ec9a0" />
       <Suspense fallback={null}>
         <VoxelMark />
         <Crystal />

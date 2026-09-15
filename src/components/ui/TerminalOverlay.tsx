@@ -13,7 +13,7 @@ export function TerminalOverlay() {
 
   const env = useMemo(
     () => ({
-      whoami: `${profile.legalName}\n${profile.title}\nPurdue CIT, expected ${profile.graduation}\n${profile.location}`,
+      whoami: `${profile.legalName}\n${profile.title}\nPurdue CIT, expected graduation: ${profile.graduation}\n${profile.location}`,
       skills: [...skills.languages, ...skills.frameworks, ...skills.concepts].join(" · "),
       work: projects.map((p) => `${p.year}  ${p.title}${p.url ? `  ${p.url}` : ""}`).join("\n"),
       xp: experience.map((e) => `${e.dates}  ${e.role} @ ${e.company}`).join("\n"),

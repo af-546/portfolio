@@ -14,17 +14,17 @@ const schema = z.object({
 });
 
 export function ContactPage() {
-  usePageTitle("Contact — Ali Farid");
+  usePageTitle("Contact | Ali Farid");
   const { pushToast } = useApp();
   const [form, setForm] = useState({ name: "", email: "", company: "", message: "" });
   const [errors, setErrors] = useState<string | null>(null);
 
   return (
-    <div className="section-pad py-16">
+    <div className="section-pad py-12">
       <p className="hud-line">Get in touch</p>
-      <h1 className="display-xl mt-3 text-6xl sm:text-8xl">Contact</h1>
-      <p className="mt-4 max-w-xl text-mist">
-        {profile.target}. Email, call, or send the form — all of these are live links.
+      <h1 className="display-xl mt-2 text-5xl sm:text-6xl">Contact</h1>
+      <p className="mt-3 max-w-xl text-lg text-mist">
+        {profile.target}. Email, call, or send the form. All of these are live links.
       </p>
       <div className="mt-12 grid gap-12 lg:grid-cols-2">
         <ContactLinks />
@@ -39,9 +39,9 @@ export function ContactPage() {
               return;
             }
             setErrors(null);
-            const subject = encodeURIComponent(`Internship / role — ${parsed.data.company}`);
+            const subject = encodeURIComponent(`Internship / role: ${parsed.data.company}`);
             const body = encodeURIComponent(
-              `${parsed.data.message}\n\n— ${parsed.data.name} · ${parsed.data.email}`,
+              `${parsed.data.message}\n\n${parsed.data.name} · ${parsed.data.email}`,
             );
             window.location.href = `mailto:${profile.email}?subject=${subject}&body=${body}`;
             pushToast("Opening your email app");
@@ -67,7 +67,7 @@ export function ContactPage() {
           {errors && <p className="text-sm text-signal">{errors}</p>}
           <button
             type="submit"
-            className="rounded-full bg-gold px-6 py-3 font-mono text-xs uppercase tracking-widest text-void"
+            className="rounded-full bg-gold px-6 py-3 btn-label text-void"
           >
             Open email
           </button>

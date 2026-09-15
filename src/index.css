@@ -2,6 +2,35 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --void-rgb: 23 19 16;
+  --ink-rgb: 34 28 24;
+  --paper-rgb: 246 241 232;
+  --mist-rgb: 201 189 176;
+  --accent-rgb: 224 138 93;
+  --accent-dim-rgb: 196 109 66;
+  --accent-flare-rgb: 243 180 138;
+  --aqua-rgb: 126 201 160;
+  --signal-rgb: 226 91 76;
+  --void: rgb(var(--void-rgb));
+  --ink: rgb(var(--ink-rgb));
+  --paper: rgb(var(--paper-rgb));
+  --mist: rgb(var(--mist-rgb));
+  --accent: rgb(var(--accent-rgb));
+}
+
+html.high-contrast {
+  --void-rgb: 11 9 7;
+  --ink-rgb: 20 15 12;
+  --paper-rgb: 255 250 243;
+  --mist-rgb: 242 232 220;
+  --accent-rgb: 255 177 122;
+}
+
+html.large-text {
+  font-size: 18px;
+}
+
 @layer base {
   html {
     @apply scroll-smooth antialiased;
@@ -21,18 +50,19 @@
   }
 
   ::-webkit-scrollbar-track {
-    background: #050505;
+    background: var(--void);
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #e8c54755;
+    background: color-mix(in srgb, var(--accent) 45%, transparent);
     border-radius: 99px;
   }
 }
 
 @layer components {
-  .hud-line {
-    @apply font-mono text-[10px] uppercase tracking-[0.28em] text-mist;
+  .hud-line,
+  .kicker {
+    @apply text-[15px] font-medium tracking-[0.02em] text-mist;
   }
 
   .glass {
@@ -40,44 +70,41 @@
   }
 
   .section-pad {
-    @apply px-5 sm:px-8 lg:px-16 xl:px-24;
+    @apply px-5 sm:px-8 lg:px-14 xl:px-20;
   }
 
   .display-xl {
-    @apply font-display font-extrabold uppercase leading-[0.86] tracking-[-0.04em];
+    @apply font-display font-medium leading-[1.05] tracking-[-0.02em];
+  }
+
+  .btn-label {
+    @apply text-sm font-semibold tracking-tight;
+  }
+
+  .card-lift {
+    @apply transition duration-300 ease-out;
+  }
+  .card-lift:hover {
+    transform: translateY(-4px);
+    border-color: rgb(var(--accent-rgb) / 0.4);
+    box-shadow: 0 18px 50px rgb(var(--accent-rgb) / 0.16);
   }
 }
 
-.grain {
-  pointer-events: none;
-  position: fixed;
-  inset: 0;
-  z-index: 80;
-  opacity: 0.09;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+.reduce-motion .card-lift:hover,
+.reduce-motion .animate-marquee,
+.reduce-motion .animate-marqueeReverse,
+.reduce-motion .animate-float,
+.reduce-motion .animate-pulseGlow {
+  animation: none !important;
+  transform: none !important;
 }
 
-.scanlines {
-  pointer-events: none;
-  position: fixed;
-  inset: 0;
-  z-index: 70;
-  opacity: 0.04;
-  background: repeating-linear-gradient(
-    to bottom,
-    transparent 0,
-    transparent 2px,
-    rgba(0, 0, 0, 0.35) 3px
-  );
-}
-
-.reduce-motion .grain,
-.reduce-motion .scanlines {
-  display: none;
-}
-
-.pixelated {
-  image-rendering: pixelated;
-  image-rendering: crisp-edges;
+html.reduce-motion *,
+html.reduce-motion *::before,
+html.reduce-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
 }
