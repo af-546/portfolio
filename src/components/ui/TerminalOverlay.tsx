@@ -67,7 +67,7 @@ export function TerminalOverlay() {
                 close
               </button>
             </div>
-            <div className="h-72 overflow-auto p-4 font-mono text-xs leading-6 text-aqua whitespace-pre-wrap">
+            <div className="h-72 overflow-auto p-4 font-mono text-xs leading-6 text-gold whitespace-pre-wrap">
               {lines.join("\n")}
             </div>
             <form

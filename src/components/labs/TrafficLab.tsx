@@ -189,7 +189,7 @@ export function TrafficLab() {
             <div key={label}>
               <div className="mb-1 flex justify-between font-mono text-[10px] uppercase tracking-widest text-mist">
                 <span>{label} sensor</span>
-                <span className={hot ? "text-aqua" : ""}>{count} cars</span>
+                <span className={hot ? "text-gold" : ""}>{count} cars</span>
               </div>
               <div className="h-1.5 overflow-hidden rounded-full bg-white/10">
                 <div

@@ -61,7 +61,7 @@ type Ctx = {
 const AppContext = createContext<Ctx | null>(null);
 
 export function AppProvider({ children }: { children: ReactNode }) {
-  const [sound, setSound] = useState(true);
+  const [sound, setSound] = useState(false);
   const [commandOpen, setCommandOpen] = useState(false);
   const [terminalOpen, setTerminalOpen] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
@@ -100,6 +100,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
+    setAudioEnabled(sound);
+  }, [sound]);
+
+  useEffect(() => {
     if (preloaderDone) return;
     const t = window.setTimeout(() => {
       setPreloaderDone(true);
@@ -108,7 +112,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       } catch {
         /* ignore */
       }
-    }, 1500);
+    }, 6000);
     return () => window.clearTimeout(t);
   }, [preloaderDone]);
 

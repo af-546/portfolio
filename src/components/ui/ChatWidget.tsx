@@ -25,11 +25,11 @@ export function ChatWidget() {
       a: `Purdue University, B.S. Computing and Information Technology. Expected graduation: ${profile.graduation}. Transferred from Montclair State (GPA 3.94/4.0).`,
     },
     {
-      q: "What did he ship?",
-      a: "SoftwareDesign.io and Houston LEAD at NightHash, plus King Real Estate sites: kingre.org, theoobinn.com, seabreezemotel.com, coastal-oaks.com, Milwaukee Riverfront Plaza, and sacolofts.com. Also a Python page crawler and a Raspberry Pi traffic-light controller.",
+      q: "What have you shipped?",
+      a: "At NightHash I shipped SoftwareDesign.io and Houston LEAD. At King Real Estate I built kingre.org, theoobinn.com, seabreezemotel.com, coastal-oaks.com, and a Milwaukee Riverfront Plaza Google Site. I also built a Python page crawler and a Raspberry Pi traffic-light controller.",
     },
     {
-      q: "How do I reach him?",
+      q: "How do I reach you?",
       a: "Email, call, LinkedIn, GitHub, or the resume. All of these open directly:",
       extra: <ContactPills />,
     },
@@ -55,7 +55,7 @@ export function ChatWidget() {
             <div className="max-h-72 space-y-3 overflow-auto p-4 text-sm">
               {log.map((m, i) => (
                 <div key={i}>
-                  <p className={m.from === "af" ? "text-aqua" : "text-paper"}>
+                  <p className={m.from === "af" ? "text-gold" : "text-paper"}>
                     <span className="mr-2 text-xs font-semibold">{m.from === "af" ? "Ali" : "You"}</span>
                     {m.text}
                   </p>

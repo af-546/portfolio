@@ -28,17 +28,6 @@ export function HomePage() {
       <SkillConstellation />
       <Education />
       <LabsTeaser />
-      <Marquee
-        items={[
-          "Software engineering",
-          "IT",
-          "Systems analysis",
-          "Open to relocation",
-          "Purdue CIT",
-          "June 2028",
-        ]}
-        reverse
-      />
       <ContactCTA />
     </>
   );

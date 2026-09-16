@@ -86,7 +86,7 @@ export function InventoryLab() {
                       o.status === "Shipped"
                         ? "text-mist"
                         : o.status === "Packed"
-                          ? "bg-aqua/20 text-aqua"
+                          ? "bg-gold/20 text-gold"
                           : "border border-white/20"
                     }`}
                   >

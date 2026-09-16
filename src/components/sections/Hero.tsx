@@ -18,31 +18,21 @@ export function Hero() {
         <span>Expected graduation: {profile.graduation}</span>
         <span className="text-gold">Summer 2027 internships</span>
       </div>
-      <div className="mt-6 grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
-        <div>
-          <motion.h1
-            className="display-xl text-5xl sm:text-6xl lg:text-7xl"
-            style={reduced ? undefined : { y: titleY }}
-            initial={reduced ? false : { opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          >
-            Ali Farid
-          </motion.h1>
+
+      <div className="mt-6 grid items-start gap-8 md:grid-cols-[1.15fr_0.85fr] md:gap-10">
+        <motion.div
+          style={reduced ? undefined : { y: titleY }}
+          initial={reduced ? false : { opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <h1 className="display-xl text-5xl sm:text-6xl lg:text-7xl">Ali Farid</h1>
           <p className="mt-4 font-body text-xl font-medium text-gold">{profile.title}</p>
           <p className="mt-4 max-w-xl text-lg leading-relaxed text-mist">{profile.summary}</p>
-          <div className="mt-7 flex flex-wrap gap-3">
+          <div className="mt-5 flex flex-wrap gap-3">
             <Magnetic>
               <Link to="/work" className="inline-block rounded-full bg-gold px-6 py-3 btn-label text-void">
                 See work
-              </Link>
-            </Magnetic>
-            <Magnetic>
-              <Link
-                to="/lab"
-                className="inline-block rounded-full border border-white/20 px-6 py-3 btn-label"
-              >
-                Open lab
               </Link>
             </Magnetic>
             <Magnetic>
@@ -53,17 +43,27 @@ export function Hero() {
                 Resume PDF
               </a>
             </Magnetic>
+            <Link
+              to="/lab"
+              className="inline-flex items-center px-2 py-3 text-[15px] font-medium text-mist hover:text-paper"
+            >
+              Open lab
+            </Link>
           </div>
-          <div className="mt-6">
-            <ContactPills />
+          <div className="mt-5">
+            <ContactPills omit={["resume"]} />
           </div>
-        </div>
-        <motion.div style={reduced ? undefined : { y: sceneY }} className="relative">
-          <div className="overflow-hidden rounded-2xl border border-white/10 bg-ink shadow-gold">
+        </motion.div>
+
+        <motion.div
+          style={reduced ? undefined : { y: sceneY }}
+          className="relative hidden min-h-0 md:flex md:items-start md:justify-end"
+        >
+          <div className="aspect-[3/4] w-full max-w-[220px] overflow-hidden rounded-2xl border border-white/10 bg-ink shadow-gold sm:max-w-[240px] lg:max-w-[252px]">
             <img
               src={profile.photoSuit}
               alt={`${profile.name}, software and IT student at Purdue`}
-              className="aspect-[4/5] w-full object-cover object-top"
+              className="h-full w-full object-cover object-top"
               fetchPriority="high"
             />
           </div>

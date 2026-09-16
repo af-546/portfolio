@@ -122,10 +122,11 @@ export function ContactLinks({
   );
 }
 
-export function ContactPills() {
+export function ContactPills({ omit = [] }: { omit?: string[] }) {
+  const hidden = new Set(omit);
   return (
     <div className="flex flex-wrap gap-2">
-      {contactLinks.map((item) => (
+      {contactLinks.filter((item) => !hidden.has(item.id)).map((item) => (
         <Magnetic key={item.id}>
           <a
             href={item.href}

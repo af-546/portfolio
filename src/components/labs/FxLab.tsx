@@ -53,7 +53,7 @@ export function FxLab() {
               <tr key={r.pair} className="border-t border-white/10">
                 <td className="py-2 text-gold">{r.pair}</td>
                 <td>{r.last.toFixed(3)}</td>
-                <td className={r.delta >= 0 ? "text-aqua" : "text-signal"}>
+                <td className={r.delta >= 0 ? "text-gold" : "text-signal"}>
                   {r.delta >= 0 ? "+" : ""}
                   {r.delta.toFixed(3)}
                 </td>

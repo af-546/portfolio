@@ -12,7 +12,7 @@ export function Footer() {
         </div>
         <ContactLinks compact />
         <div className="md:text-right">
-          <p className="hud-line">Press ? for shortcuts</p>
+          <p className="text-sm text-mist">West Lafayette and Lahore</p>
           <p className="mt-3 text-sm text-mist">
             © {new Date().getFullYear()} {profile.legalName}
           </p>

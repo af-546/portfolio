@@ -16,7 +16,7 @@ export function WorkThumb({
     return (
       <div
         className={className}
-        style={{ background: `linear-gradient(145deg, ${accent}66, #0a1018)` }}
+        style={{ background: `linear-gradient(145deg, ${accent}55, #221c18)` }}
         aria-hidden
       />
     );

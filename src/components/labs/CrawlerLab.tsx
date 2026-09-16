@@ -229,7 +229,7 @@ export function CrawlerLab() {
         </div>
       </form>
 
-      <pre className="mt-4 max-h-80 overflow-auto rounded-2xl bg-black/60 p-4 font-mono text-[11px] leading-6 text-aqua">
+      <pre className="mt-4 max-h-80 overflow-auto rounded-2xl bg-black/60 p-4 font-mono text-[11px] leading-6 text-gold">
         <div className="text-mist">$ python crawler.py {input.trim() || "site"}</div>
         {log.map((line) => (
           <div key={line.url} className="mt-3">

@@ -13,7 +13,7 @@ export const profile = {
   resume: asset("/Ali_Farid_Resume.pdf"),
   avatar: asset("/portraits/ali-suit.png"),
   photoSuit: asset("/portraits/ali-suit.png"),
-  photoStage: asset("/portraits/ali-stage.png"),
+  photoStage: `${asset("/portraits/ali-stage.png")}?v=5`,
   openToRelocation: true,
   graduation: "June 2028",
   target:
@@ -75,7 +75,7 @@ export const experience = [
     role: "Software and Digital Operations Intern",
     place: "Old Orchard Beach, ME",
     dates: "Jun 2025 to Aug 2025",
-    accent: "#7ec9a0",
+    accent: "#c48a5a",
     bullets: [
       "Designed, built, and launched websites for King Real Estate and related properties (kingre.org, theoobinn.com, seabreezemotel.com, coastal-oaks.com, Milwaukee Riverfront Plaza, sacolofts.com)",
       "Supported IT for 15+ office devices and handled recurring tickets with written runbooks",
@@ -100,7 +100,7 @@ export const experience = [
     role: "Finance Intern",
     place: "Gulberg, Lahore",
     dates: "Jun 2019 to Aug 2019",
-    accent: "#60a5fa",
+    accent: "#d4a574",
     bullets: [
       "Reviewed FX transaction flows and daily currency exposure for 50+ client accounts",
       "Built Excel models for rate sensitivity and presented in 3 staff meetings",

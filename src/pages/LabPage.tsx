@@ -10,11 +10,11 @@ export function LabPage() {
   const { setTerminalOpen } = useApp();
   return (
     <div className="section-pad py-12">
-      <p className="hud-line">Small demos</p>
+      <p className="kicker">Browser demos</p>
       <h1 className="display-xl mt-2 text-5xl sm:text-6xl">Lab</h1>
       <p className="mt-3 max-w-2xl text-lg text-mist">
-        Browser versions of two school and personal projects (page crawler, traffic lights), plus
-        stand-ins for the Daraz.pk store desk and FX work from earlier jobs. Not production systems.
+        Interactive versions of a page crawler and traffic-light controller, plus stand-ins for the
+        Daraz.pk seller desk and FX tables from earlier jobs. These are demos, not production systems.
       </p>
       <button
         type="button"

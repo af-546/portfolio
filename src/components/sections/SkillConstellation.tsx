@@ -17,7 +17,7 @@ export function SkillConstellation() {
       <p className="kicker">Tools in context</p>
       <h2 className="display-xl mt-2 text-5xl sm:text-6xl">Skills</h2>
       <p className="mt-3 max-w-2xl text-base text-mist">
-        Hover a language or tool to see where I used it. Cards tilt a little; nothing here is random.
+        Hover a language or tool to see where I used it.
       </p>
 
       <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

@@ -21,7 +21,7 @@ export function CaseStudyPage() {
 
   return (
     <article className="section-pad py-12">
-      <p className="hud-line" style={{ color: project.accent }}>
+      <p className="kicker" style={{ color: project.accent }}>
         {project.year} · {project.client} · {project.category}
         {project.live === false ? " · domain currently offline" : ""}
       </p>
@@ -68,18 +68,11 @@ export function CaseStudyPage() {
           ["Outcome", project.results.join(" ")],
         ].map(([k, v]) => (
           <section key={k}>
-            <p className="hud-line text-gold">{k}</p>
-            <p className="mt-3 text-sm leading-relaxed">{v}</p>
+            <p className="kicker text-gold">{k}</p>
+            <p className="mt-3 text-base leading-relaxed text-paper/90">{v}</p>
           </section>
         ))}
       </div>
-      <ul className="mt-10 space-y-2">
-        {project.results.map((r) => (
-          <li key={r} className="border-l-2 border-gold pl-4 text-sm">
-            {r}
-          </li>
-        ))}
-      </ul>
       <div className="mt-10 flex flex-wrap gap-2">
         {project.tags.map((t) => (
           <span key={t} className="rounded-full border border-white/15 px-3 py-1 text-xs">

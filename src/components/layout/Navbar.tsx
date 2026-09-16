@@ -30,7 +30,7 @@ export function Navbar() {
       <div className="flex items-center justify-between border-b border-white/10 bg-void/80 px-4 py-3 backdrop-blur-xl sm:px-8">
         <Link to="/" className="flex items-center gap-3">
           <img src={profile.avatar} alt="" className="h-8 w-8 rounded-md object-cover object-top" />
-          <span className="font-display text-base font-semibold">AF</span>
+          <span className="font-display text-base font-semibold">Ali Farid</span>
         </Link>
         <nav className="hidden items-center gap-7 md:flex">
           {nav.map((n) => (
@@ -80,7 +80,7 @@ export function Navbar() {
             {t.label} {t.time}
           </span>
         ))}
-        <span className="ml-auto text-aqua">Open to relocation</span>
+        <span className="ml-auto text-gold">Open to relocation</span>
       </div>
     </header>
   );

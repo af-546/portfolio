@@ -17,11 +17,11 @@ export function WorkPage() {
 
   return (
     <div className="section-pad py-12">
-      <p className="hud-line">Sites, systems, hardware</p>
+      <p className="kicker">Sites, systems, hardware</p>
       <h1 className="display-xl mt-2 text-5xl sm:text-6xl">Work</h1>
       <p className="mt-3 max-w-2xl text-lg text-mist">
-        SoftwareDesign.io and Houston LEAD at NightHash, King Real Estate sites including Coastal Oaks
-        and the Milwaukee Riverfront Plaza Google Site, plus two personal projects.
+        Production sites from NightHash and King Real Estate, plus two personal projects: a page crawler
+        and a Raspberry Pi traffic-light controller.
       </p>
       <div className="mt-8 flex flex-wrap gap-2">
         {filters.map((x) => (

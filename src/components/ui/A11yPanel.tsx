@@ -10,6 +10,8 @@ export function A11yPanel() {
     setContrast,
     largeText,
     setLargeText,
+    sound,
+    toggleSound,
   } = useApp();
 
   return (
@@ -45,6 +47,11 @@ export function A11yPanel() {
               label="Larger text"
               checked={largeText}
               onChange={setLargeText}
+            />
+            <Toggle
+              label="Interface sounds"
+              checked={sound}
+              onChange={() => toggleSound()}
             />
           </div>
         </div>

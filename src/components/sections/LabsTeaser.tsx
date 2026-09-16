@@ -15,6 +15,10 @@ const labs = [
     title: "Daraz store desk",
     desc: "Order and listing stand-in from running Alliance's Daraz.pk storefront.",
   },
+  {
+    title: "FX table",
+    desc: "Stand-in for the currency pairs I reviewed as a finance intern at Askari Bank.",
+  },
 ];
 
 export function LabsTeaser() {
@@ -31,7 +35,7 @@ export function LabsTeaser() {
           </Link>
         </Magnetic>
       </div>
-      <div className="mt-8 grid gap-4 md:grid-cols-3">
+      <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {labs.map((l, i) => (
           <Reveal key={l.title} delay={i * 0.05}>
             <Link
